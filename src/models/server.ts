@@ -25,8 +25,7 @@ export class Server {
   }
 
   middlewares(): void {
-    const allowedOrigins =
-      process.env.FRONTEND_URL || process.env.FRONTEND_LOCAL;
+    const allowedOrigins = process.env.FRONTEND_URL;
     this.app.use(cors({ origin: allowedOrigins }));
     this.app.use(express.json());
     this.app.use(
