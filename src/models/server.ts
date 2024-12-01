@@ -4,6 +4,9 @@ import connectDB from "../database/config";
 import productRouter from "../routes/products";
 import userRouter from "../routes/users";
 import fileUpload from "express-fileupload";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export class Server {
   app: Express;
@@ -22,6 +25,21 @@ export class Server {
   }
 
   middlewares(): void {
+    const allowedOrigins = ["http://localhost:3000", process.env.FRONTEND_URL];
+
+    this.app.use(
+      cors({
+        origin: (origin, callback) => {
+          if (allowedOrigins.includes(origin) || !origin) {
+            callback(null, true);
+          } else {
+            callback(new Error("No permitido por CORS"));
+          }
+        },
+      })
+    );
+
+    // this.app.use(cors());
     this.app.use(express.json());
     this.app.use(
       fileUpload({
@@ -29,7 +47,6 @@ export class Server {
         tempFileDir: "./uploads",
       })
     );
-    this.app.use(cors());
   }
 
   routes(): void {
