@@ -6,6 +6,7 @@ export interface IProduct {
   price: number;
   image: string;
   isActive: boolean;
+  feature: boolean;
 }
 
 const ProductSchema = new Schema<IProduct>({
@@ -27,8 +28,11 @@ const ProductSchema = new Schema<IProduct>({
   },
   isActive: {
     type: Boolean,
-    required: [true, "El campo es obligatorio"],
-    default: false,
+    default: true,
+  },
+  feature: {
+    type: Boolean,
+    default: true,
   },
 });
 

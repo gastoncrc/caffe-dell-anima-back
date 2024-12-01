@@ -3,6 +3,7 @@ import cors from "cors";
 import connectDB from "../database/config";
 import productRouter from "../routes/products";
 import userRouter from "../routes/users";
+import fileUpload from "express-fileupload";
 
 export class Server {
   app: Express;
@@ -22,12 +23,19 @@ export class Server {
 
   middlewares(): void {
     this.app.use(express.json());
+    this.app.use(
+      fileUpload({
+        useTempFiles: true,
+        tempFileDir: "./uploads",
+      })
+    );
     this.app.use(cors());
   }
 
   routes(): void {
     this.app.use("/products", productRouter);
     this.app.use("/users", userRouter);
+    this.app.use("/cart", userRouter);
   }
 
   listen(): void {
