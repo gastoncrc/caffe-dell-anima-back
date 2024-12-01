@@ -25,21 +25,9 @@ export class Server {
   }
 
   middlewares(): void {
-    const allowedOrigins = ["http://localhost:3000", process.env.FRONTEND_URL];
-
-    this.app.use(
-      cors({
-        origin: (origin, callback) => {
-          if (allowedOrigins.includes(origin) || !origin) {
-            callback(null, true);
-          } else {
-            callback(new Error("No permitido por CORS"));
-          }
-        },
-      })
-    );
-
-    // this.app.use(cors());
+    const allowedOrigins =
+      process.env.FRONTEND_URL || process.env.FRONTEND_LOCAL;
+    this.app.use(cors({ origin: allowedOrigins }));
     this.app.use(express.json());
     this.app.use(
       fileUpload({
